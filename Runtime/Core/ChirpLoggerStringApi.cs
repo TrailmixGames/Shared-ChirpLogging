@@ -78,25 +78,47 @@ namespace WhiteSparrow.Shared.Logging.Core
 		
 		
 #if CHIRP
-		[Conditional("LogLevel0"), Conditional("LogLevelDebug")]
-		[Conditional("LogLevel1"), Conditional("LogLevelDefault")]
-		[Conditional("LogLevel2"), Conditional("LogLevelInfo")]
-		[Conditional("LogLevel3"), Conditional("LogLevelWarning")]
-		[Conditional("LogLevel4"), Conditional("LogLevelAssert")]
-		[Conditional("LogLevel5"), Conditional("LogLevelError")]
-		[Conditional("LogLevel6"), Conditional("LogLevelException")]
-		[Conditional("CHIRP")]
+	    [Conditional("LogLevel0"), Conditional("LogLevelDebug")]
+	    [Conditional("LogLevel1"), Conditional("LogLevelDefault")]
+	    [Conditional("LogLevel2"), Conditional("LogLevelInfo")]
+	    [Conditional("LogLevel3"), Conditional("LogLevelWarning")]
+	    [Conditional("LogLevel4"), Conditional("LogLevelAssert")]
+	    [Conditional("LogLevel5"), Conditional("LogLevelError")]
+	    [Conditional("LogLevel6"), Conditional("LogLevelException")]
+	    [Conditional("CHIRP")]
 #else
 		[Conditional("CHIRP")]
 #endif
-		[HideInCallstack]
-		public void Exception(Exception exception)
-		{
-			var log = ChirpLogUtil.ConstructLog(exception.Message);
-			log.Source = this;
-			log.StackTrace = exception.StackTrace;
-			log.Level = LogLevel.Exception;
-			Chirp.Impl.Submit(log);
-		}
+	    [HideInCallstack]
+	    public void Exception(Exception exception)
+	    {
+		    var log = ChirpLogUtil.ConstructLog(exception.Message);
+		    log.Source = this;
+		    log.StackTrace = exception.StackTrace;
+		    log.Level = LogLevel.Exception;
+		    Chirp.Impl.Submit(log);
+	    }
+	    
+#if CHIRP
+	    [Conditional("LogLevel0"), Conditional("LogLevelDebug")]
+	    [Conditional("LogLevel1"), Conditional("LogLevelDefault")]
+	    [Conditional("LogLevel2"), Conditional("LogLevelInfo")]
+	    [Conditional("LogLevel3"), Conditional("LogLevelWarning")]
+	    [Conditional("LogLevel4"), Conditional("LogLevelAssert")]
+	    [Conditional("LogLevel5"), Conditional("LogLevelError")]
+	    [Conditional("LogLevel6"), Conditional("LogLevelException")]
+	    [Conditional("CHIRP")]
+#else
+		[Conditional("CHIRP")]
+#endif
+	    [HideInCallstack]
+	    public void Exception(Exception exception, string message)
+	    {
+		    var log = ChirpLogUtil.ConstructLog($"{message} {exception.Message}");
+		    log.Source = this;
+		    log.StackTrace = exception.StackTrace;
+		    log.Level = LogLevel.Exception;
+		    Chirp.Impl.Submit(log);
+	    }
     }
 }
